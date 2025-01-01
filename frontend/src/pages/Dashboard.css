@@ -1,0 +1,61 @@
+/* Dashboard.css */
+
+.dashboard {
+    display: flex;
+    background: #f9f9f9;
+    min-height: 100vh;
+}
+
+.dashboard-content {
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: 250px; /* Reserve space for sidebar */
+}
+
+.dashboard-content h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.dashboard-widgets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.widget {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+.widget h3 {
+    margin-bottom: 15px;
+    color: #4a4aff;
+}
+
+.widget p {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.widget ul {
+    list-style: none;
+    padding: 0;
+}
+
+.widget ul li {
+    margin: 10px 0;
+    color: #4a4aff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.widget ul li:hover {
+    color: #333;
+}

@@ -1,0 +1,62 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  /* Container for the Home Page */
+  .home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    background: linear-gradient(to bottom, #4f46e5, #eef2ff);
+    color: #333;
+    padding: 2rem;
+  }
+  
+  /* Heading Styles */
+  .home-container h1 {
+    color: #ffffff;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Subheading or Content */
+  .home-container p {
+    color: #f5f5f5;
+    font-size: 1.2rem;
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+  
+  /* Buttons */
+  .home-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .home-buttons a {
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    background-color: #ffffff;
+    color: #4f46e5;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .home-buttons a:hover {
+    background-color: #4f46e5;
+    color: #ffffff;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  }
+  

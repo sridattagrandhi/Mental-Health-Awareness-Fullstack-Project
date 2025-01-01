@@ -1,0 +1,328 @@
+/* General styles */
+.journal-page {
+    display: flex;
+    min-height: 100vh;
+    background: var(--background-gradient);
+    color: var(--text-color);
+}
+
+.journal-container {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 225px;
+}
+
+/* Header Section */
+.journal-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.journal-title {
+    font-size: 2.5rem;
+    color: #b39ddb;
+    margin: 0;
+}
+
+.journal-date {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Button for new entries */
+.new-entry-button {
+    background: #b39ddb;
+    border: none;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin: 20px 0;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.new-entry-button:hover {
+    background: #9575cd;
+    transform: scale(1.05);
+}
+
+/* Writing mode styles */
+.journal-writing-mode {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 100%;
+    justify-content: space-between;
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    left: 250px; /* Ensure it aligns with the sidebar */
+    box-sizing: border-box;
+}
+
+.journal-writing-mode textarea {
+    width: 100%;
+    height: calc(100vh - 100px); /* Adjust for bottom action buttons */
+    background-color: #1e1e1e;
+    border: none;
+    resize: none;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 1.5rem;
+    color: white;
+    font-family: "Arial", sans-serif;
+    outline: none;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.exit-button {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: #b39ddb;
+    font-size: 1.5rem;
+    cursor: pointer;
+    background-color: #b39ddb;
+    color: white;
+    font-size: 2rem;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+
+.exit-button:hover {
+    background-color: #9575cd;
+    transform: scale(1.1);
+}
+
+/* Save button for writing mode */
+.bottom-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+    position: absolute;
+    bottom: 80px;
+    right: 40px;
+}
+
+.save-checkmark {
+    background-color: #b39ddb;
+    color: white;
+    font-size: 2rem;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.save-checkmark:hover {
+    background-color: #9575cd;
+    transform: scale(1.1);
+}
+
+.journal-writing-mode textarea {
+    padding-right: 80px; /* Add padding to prevent overlap with the exit button */
+    padding-bottom: 80px; /* Add padding to prevent overlap with the save button */
+}
+
+
+/* Empty state */
+.journal-empty {
+    text-align: center;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 50px;
+}
+
+/* Entries list */
+.journal-entries {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Individual entry */
+.journal-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1e1e1e; /* Dark background */
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    height: 100px; /* Fixed height */
+    width: 100%; /* Adjust to fit container */
+    max-width: 800px; /* Keep consistent width */
+    margin-bottom: 15px;
+    /* margin-left: 250px; */
+}
+
+.journal-entry:hover {
+    background: #282828;
+    cursor: pointer;
+}
+
+/* Adjust spacing around the group headers */
+.journal-group {
+    margin-bottom: 30px; /* Space between groups */
+}
+
+/* Group Header for Month and Year */
+.month-year-header {
+    font-size: 1.5rem;
+    color: #b39ddb;
+    margin-bottom: 10px;
+    text-align: left;
+    width: 100%;
+    max-width: 800px;
+    padding: 10px 20px;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Popup for viewing an entry */
+.popup-container.view-entry {
+    width: 500px;
+    text-align: left;
+}
+
+.popup-container.view-entry h2 {
+    color: #b39ddb;
+    margin-bottom: 10px;
+}
+
+.popup-container.view-entry p {
+    color: white;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+/* Entry date */
+.entry-date {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: bold;
+    margin-right: 10px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+}
+
+/* Entry text */
+.entry-text {
+    font-size: 1.1rem;
+    color: white;
+    flex-grow: 1;
+    margin-right: 20px;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Entry actions */
+.entry-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.entry-actions button {
+    background: transparent;
+    border: none;
+    color: #b39ddb;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.entry-actions button:hover {
+    color: #9575cd;
+}
+
+/* Popup Overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Popup Container */
+.popup-container {
+    background: #1e1e1e;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.popup-container h2 {
+    color: #b39ddb;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.popup-container p {
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+/* Popup Actions */
+.popup-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.delete-button {
+    background: #e53935;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.delete-button:hover {
+    background: #d32f2f;
+}
+
+.cancel-button {
+    background: #b39ddb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.cancel-button:hover {
+    background: #9575cd;
+}
