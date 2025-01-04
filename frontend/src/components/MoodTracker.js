@@ -42,15 +42,15 @@ function MoodTracker() {
           console.error("No token found in localStorage");
           return;
         }
-
+  
         const response = await axios.get("http://localhost:8000/api/moodlogs", {
           headers: { Authorization: `Bearer ${token}` },
         });
-
+  
         if (response.status === 200) {
           const data = response.data;
           console.log("Fetched mood logs:", data);
-
+  
           // Update moodMap with fetched data
           setMoodMap(
             data.reduce((map, log) => {
@@ -64,7 +64,7 @@ function MoodTracker() {
         console.error("Error fetching mood logs:", error.message);
       }
     };
-
+  
     fetchMoodLogs(); // Fetch moods when the component loads
   }, []); // Empty dependency array to run only once
 
@@ -107,11 +107,11 @@ function MoodTracker() {
     const weekdayOfFirstDay = firstDayOfMonth.getDay();
     let currentDays = [];
     let firstDate = new Date(firstDayOfMonth);
-
+  
     if (weekdayOfFirstDay !== 0) {
       firstDate.setDate(firstDayOfMonth.getDate() - weekdayOfFirstDay);
     }
-
+  
     for (let i = 0; i < 42; i++) {
       const dayData = {
         currentMonth: firstDate.getMonth() === currentDay.getMonth(),
@@ -123,7 +123,7 @@ function MoodTracker() {
       currentDays.push(dayData);
       firstDate.setDate(firstDate.getDate() + 1);
     }
-
+  
     return (
       <div className="table-content">
         {currentDays.map((day, index) => {
@@ -132,7 +132,7 @@ function MoodTracker() {
           const moodName = moodMap[dateKey]; // Get mood from moodMap
           const backgroundColor = moods.find((mood) => mood.name === moodName)?.color || "#f9f9f9";
           const textColor = day.currentMonth ? "#333" : "#aaa"; // Faded color for days outside the month
-
+  
           return (
             <div
               key={index}

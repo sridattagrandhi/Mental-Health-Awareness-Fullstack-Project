@@ -29,6 +29,12 @@ const UserSchema = new mongoose.Schema({
         triggers: [String],
         crisisPlan: [String],
     },
+    chatbotSessions: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "ChatbotSession", // Reference the ChatbotSession model
+        },
+    ],
 });
 
 module.exports = mongoose.model("User", UserSchema);

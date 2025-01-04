@@ -6,8 +6,8 @@ const Sidebar = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem("auth"); // Clear authentication
-        navigate("/login"); // Redirect to login page
+        localStorage.removeItem("auth");
+        navigate("/login");
     };
 
     return (
@@ -24,7 +24,10 @@ const Sidebar = () => {
                     <Link to="/journal">Journal</Link>
                 </li>
                 <li>
-                    <Link to="/recoveryplan">Recovery Plan</Link> {/* Updated path */}
+                    <Link to="/recoveryplan">Recovery Plan</Link>
+                </li>
+                <li>
+                    <Link to="/chatbot">Chatbot</Link> {/* Added Chatbot */}
                 </li>
             </ul>
             <button className="logout-button" onClick={handleLogout}>

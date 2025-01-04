@@ -8,6 +8,7 @@ const authRoutes = require("./routes/auth");
 const journalRoutes = require("./routes/journal");
 const moodRoutes = require("./routes/mood");
 const recoveryRoutes = require("./routes/recovery");
+const chatbotRoutes = require("./routes/chatbot"); // Import chatbot routes
 
 dotenv.config(); // Load environment variables
 
@@ -25,6 +26,7 @@ app.use("/api/auth", authRoutes); // Auth routes
 app.use("/api/journal", journalRoutes); // Journal routes
 app.use("/api/moodlogs", moodRoutes); // Mood log routes
 app.use("/api/recovery", recoveryRoutes); // Recovery routes
+app.use("/api/chatbot", chatbotRoutes); // Chatbot routes
 
 // Server Listener
 const PORT = process.env.PORT || 8000;
