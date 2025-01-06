@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import ReactMarkdown from "react-markdown";
 import Sidebar from "./Sidebar";
 import "./Chatbot.css";
 
@@ -8,6 +9,12 @@ const Chatbot = () => {
   const [currentMessage, setCurrentMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const chatWindowRef = useRef(null);
+
+  useEffect(() => {
+    if (chatWindowRef.current) {
+      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   const sendMessage = async () => {
     if (!currentMessage.trim()) {
@@ -20,27 +27,20 @@ const Chatbot = () => {
     setLoading(true);
 
     try {
+      // Send the user's message to the backend
       const response = await axios.post("http://localhost:8000/api/chatbot/chat", {
-        message: currentMessage, // Correct field name for the backend
-        history: messages.length > 0
-          ? messages.map((msg) => ({
-              role: msg.role,
-              parts: [{ text: msg.text }],
-            }))
-          : [],
+        message: currentMessage,
       });
 
-      console.log(response);
-
+      // Append the chatbot's response to the messages
       const botReply = { role: "chatbot", text: response.data.response };
       setMessages((prev) => [...prev, botReply]);
     } catch (error) {
-      console.error("Error sending message:", error.message);
-      const errorMessage = {
-        role: "chatbot",
-        text: error.response?.data?.error || "Something went wrong. Please try again later.",
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+      console.error("Error sending message:", error.stack || error.message);
+      setMessages((prev) => [
+        ...prev,
+        { role: "chatbot", text: "Failed to generate chatbot response." },
+      ]);
     } finally {
       setCurrentMessage("");
       setLoading(false);
@@ -51,15 +51,13 @@ const Chatbot = () => {
     if (e.key === "Enter" && !loading) sendMessage();
   };
 
-  useEffect(() => {
-    if (chatWindowRef.current) {
-      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
-    }
-  }, [messages]);
-
   const renderMessage = (message, index) => (
     <div key={index} className={`message ${message.role}`}>
-      {message.text}
+      {message.role === "chatbot" ? (
+        <ReactMarkdown>{message.text}</ReactMarkdown>
+      ) : (
+        message.text
+      )}
     </div>
   );
 

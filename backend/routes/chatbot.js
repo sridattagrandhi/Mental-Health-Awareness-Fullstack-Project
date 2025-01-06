@@ -18,32 +18,30 @@ const generationConfig = {
   temperature: 0.8,
   topP: 0.9,
   topK: 40,
-  maxOutputTokens: 400,
+  maxOutputTokens: 300,
   responseMimeType: "text/plain",
 };
 
 // POST route to handle chat
 router.post("/chat", async (req, res) => {
   try {
-    const { message, history} = req.body;
+    const { message } = req.body;
 
     if (!message) {
       return res.status(400).json({ error: "Message is required." });
     }
 
-    // Initialize chat session with history
-    const chatSession = model.startChat({
+    // Generate the chatbot's response
+    const chatSession = await model.startChat({
       generationConfig,
-      history: history || [], // Use provided history or an empty array
     });
 
-    // Send the user message and get the response
     const result = await chatSession.sendMessage(message);
     const botResponse = result.response.text();
 
     res.status(200).json({ response: botResponse });
   } catch (error) {
-    console.error("Error in chat endpoint:", error.message);
+    console.error("Error in chat endpoint:", error.stack || error.message);
     res.status(500).json({ error: "Failed to generate chatbot response." });
   }
 });
