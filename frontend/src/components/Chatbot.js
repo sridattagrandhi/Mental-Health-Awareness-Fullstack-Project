@@ -1,97 +1,95 @@
-import React, { useState, useEffect } from "react";
-import "./Chatbot.css";
-import Sidebar from "./Sidebar";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import Sidebar from "./Sidebar";
+import "./Chatbot.css";
 
 const Chatbot = () => {
-    const [messages, setMessages] = useState([]);
-    const [currentMessage, setCurrentMessage] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [currentMessage, setCurrentMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const chatWindowRef = useRef(null);
 
-    const handleSendMessage = async () => {
-        if (currentMessage.trim()) {
-            const userMessage = { sender: "user", text: currentMessage };
-            setMessages([...messages, userMessage]);
-            setCurrentMessage("");
-            setIsLoading(true);
+  const sendMessage = async () => {
+    if (!currentMessage.trim()) {
+      console.error("Cannot send an empty message");
+      return;
+    }
 
-            try {
-                const token = localStorage.getItem("auth");
-                const sessionResponse = await axios.post(
-                    "http://localhost:8000/api/chatbot/session",
-                    {},
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
+    const userMessage = { role: "user", text: currentMessage };
+    setMessages((prev) => [...prev, userMessage]);
+    setLoading(true);
 
-                const { sessionId } = sessionResponse.data;
+    try {
+      const response = await axios.post("http://localhost:8000/api/chatbot/chat", {
+        message: currentMessage, // Correct field name for the backend
+        history: messages.length > 0
+          ? messages.map((msg) => ({
+              role: msg.role,
+              parts: [{ text: msg.text }],
+            }))
+          : [],
+      });
 
-                const response = await axios.post(
-                    "http://localhost:8000/api/chatbot/generate",
-                    { prompt: currentMessage, sessionId },
-                    { headers: { Authorization: `Bearer ${token}` } }
-                );
+      console.log(response);
 
-                const botMessage = {
-                    sender: "chatbot",
-                    text: response.data.reply,
-                };
-                setMessages((prevMessages) => [...prevMessages, botMessage]);
-            } catch (error) {
-                console.error("Error communicating with chatbot:", error.message);
-            } finally {
-                setIsLoading(false);
-            }
-        }
-    };
+      const botReply = { role: "chatbot", text: response.data.response };
+      setMessages((prev) => [...prev, botReply]);
+    } catch (error) {
+      console.error("Error sending message:", error.message);
+      const errorMessage = {
+        role: "chatbot",
+        text: error.response?.data?.error || "Something went wrong. Please try again later.",
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setCurrentMessage("");
+      setLoading(false);
+    }
+  };
 
-    const handleInputChange = (e) => {
-        setCurrentMessage(e.target.value);
-    };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && !loading) sendMessage();
+  };
 
-    const handleKeyPress = (e) => {
-        if (e.key === "Enter") {
-            handleSendMessage();
-        }
-    };
+  useEffect(() => {
+    if (chatWindowRef.current) {
+      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+    }
+  }, [messages]);
 
-    return (
-        <div className="chatbot-page">
-            <Sidebar />
-            <div className="chatbot-container">
-                <h1 className="chatbot-header">Mental Health Chatbot</h1>
-                <div className="chatbot-messages">
-                    {messages.map((message, index) => (
-                        <div
-                            key={index}
-                            className={`chatbot-message ${
-                                message.sender === "user" ? "user-message" : "chatbot-message"
-                            }`}
-                        >
-                            {message.text}
-                        </div>
-                    ))}
-                    {isLoading && (
-                        <div className="chatbot-message chatbot-message">
-                            Typing...
-                        </div>
-                    )}
-                </div>
-                <div className="chatbot-input-container">
-                    <input
-                        type="text"
-                        value={currentMessage}
-                        onChange={handleInputChange}
-                        onKeyPress={handleKeyPress}
-                        placeholder="Type your message..."
-                        className="chatbot-input"
-                    />
-                    <button onClick={handleSendMessage} className="chatbot-send-button">
-                        Send
-                    </button>
-                </div>
-            </div>
+  const renderMessage = (message, index) => (
+    <div key={index} className={`message ${message.role}`}>
+      {message.text}
+    </div>
+  );
+
+  return (
+    <div className="chatbot-page">
+      <Sidebar />
+      <div className="chatbot-container">
+        <div className="chat-header">
+          <h1>Chat with Lena</h1>
         </div>
-    );
+        <div className="chat-window" ref={chatWindowRef}>
+          {messages.map((message, index) => renderMessage(message, index))}
+          {loading && <div className="message chatbot">Lena is typing...</div>}
+        </div>
+        <div className="chat-input">
+          <input
+            type="text"
+            placeholder="Type your message..."
+            value={currentMessage}
+            onChange={(e) => setCurrentMessage(e.target.value)}
+            onKeyDown={handleKeyPress}
+            disabled={loading}
+          />
+          <button onClick={sendMessage} disabled={loading || !currentMessage.trim()}>
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Chatbot;
